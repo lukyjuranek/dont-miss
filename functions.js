@@ -51,9 +51,16 @@ function drawSpawnAreas() {
 	rect(spawnRange[0], height - spawnRange[1], spawnRange[1], spawnRange[1]);
 }
 
+function drawFrameRate(){
+	fill(255);
+	stroke(0);
+	textSize(20);
+	text(fps.toFixed(0), 30, 30);
+}
+
 function mousePressed() {
 	if(game_state=="MENU"){
-		buttons.forEach(button=>{
+		menu_buttons.forEach(button=>{
 			if(button.isMouseOnButton()){
 				button.press()
 			}
@@ -66,6 +73,12 @@ function mousePressed() {
 			empty.setVolume(0.3);
 			empty.play();
 		};
+	} else if(game_state=="GAME_OVER"){
+		game_over_buttons.forEach(button=>{
+			if(button.isMouseOnButton()){
+				button.press()
+			}
+		});
 	}
 }
 

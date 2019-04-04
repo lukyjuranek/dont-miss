@@ -6,8 +6,10 @@ let spawns = [];
 var game_state = "MENU";
 let spawnRange = [0, 180];
 
-var buttons = [];
+var menu_buttons = [];
+var game_over_buttons = [];
 
+let fps=0;
 // TODO: 
 // -buttons hover
 // -edit revolver
@@ -20,23 +22,32 @@ var buttons = [];
 // -ammo
 
 function setup() {
-	createCanvas(displayWidth, windowHeight-100);
+	createCanvas(displayWidth, windowHeight);
 	background(0);
 	angleMode(DEGREES);
 	imageMode(CENTER);
-	player.x = width / 2;
-	player.y = height / 2;
-	setInterval(spawn, 2000); // spawn enemy every 5 seconds	
-	checkboxAreas = createCheckbox('Visible spawn areas', false);
-	checkboxSpawns = createCheckbox('Visible spawns', false);
-	buttons[0] = new Button("Play", "GAME", width/2, 200, 150, 50);
-	buttons[1] = new Button("Settings", "SETTINGS", width/2, 300, 150, 50);
-	buttons[2] = new Button("About", "ABOUT", width/2, 400, 150, 50);
+	
+	setInterval(spawn, 500); // spawn enemy every x seconds	
+	// checkboxAreas = createCheckbox('Visible spawn areas', false);
+	// checkboxSpawns = createCheckbox('Visible spawns', false);
+	menu_buttons[0] = new Button("Play", "GAME", width/2, 230, 200, 55);
+	menu_buttons[1] = new Button("Settings", "SETTINGS", width/2, 330, 200, 55);
+	menu_buttons[2] = new Button("About", "ABOUT", width/2, 430, 200, 55);
 
+	game_over_buttons[0] = new Button("Retry", "GAME", width/2, 270, 280, 55);
+	game_over_buttons[1] = new Button("Back to menu", "MENU", width/2, 390, 280, 55);
+	// game_over_buttons[2] = new Button("About", "ABOUT", width/2, 400, 150, 50);
+
+	setInterval(()=>{
+		fps = frameRate();
+	}, 500)
+
+	textFont(PressStart2P);
 }
 
 function preload() {
 	// GPX
+	plank = loadImage('img/plank.png');
 	terrain = loadImage('img/terrain.jpg');
 	hat = loadImage('img/hat.png');
 	gun = loadImage('img/gun.png');
@@ -45,6 +56,9 @@ function preload() {
 	// Sounds
 	empty = loadSound('sounds/empty.wav');
 	shot = loadSound('sounds/shot.wav');
+	reload = loadSound('sounds/reload.mp3');
+
+	PressStart2P = loadFont('fonts/PressStart2P.ttf');
 }
 
 function draw_game() {
@@ -63,19 +77,20 @@ function draw_game() {
 	};
 
 
-	// Draw spawns
-	if(checkboxSpawns.checked()){
-		spawns.forEach(spawn => {
-			ellipse(spawn[0], spawn[1], 5, 5)
-		});
-	};
-	// Draw spawn areas
-	if(checkboxAreas.checked()){
-		drawSpawnAreas();
-	};
+	// // Draw spawns
+	// if(checkboxSpawns.checked()){
+	// 	spawns.forEach(spawn => {
+	// 		ellipse(spawn[0], spawn[1], 5, 5)
+	// 	});
+	// };
+	// // Draw spawn areas
+	// if(checkboxAreas.checked()){
+	// 	drawSpawnAreas();
+	// };
 
 	drawCrosshairs();
 	drawBullets();
+	drawFrameRate();
 
 	textSize(32);
 	text(player.score, width-50, 40)
@@ -83,8 +98,12 @@ function draw_game() {
 	if(player.bullets == 0){
 		player.bullets = -1;
 		setTimeout(()=>{player.bullets = 6}, 2000)
-		console.log("reset");
+		if(settings.gunShotSound){
+			reload.play();
+		};
+		console.log("reload");
 	};
+
 	// let rotation = atan2(mouseX - player.x, mouseY - player.y);
 	// let a = sin(rotation)*1000;
 	// let b = cos(rotation)*1000;
@@ -101,11 +120,29 @@ function draw_menu(){
 	noStroke();
 	text("Don't miss!!!", width/2, 100);
 	
-	buttons.forEach(button => {
+	menu_buttons.forEach(button => {
 		button.draw();
 	})
 
 	drawCrosshairs();
+}
+
+function draw_game_over(){
+	background(0);	
+	textAlign(CENTER, CENTER);
+	textSize(40);
+	fill(255);
+	noStroke();
+	if(player.miss){
+		text("You missed!!!", width/2, 50);
+	} else {
+		text("You died!!!", width/2, 50);
+	}
+	textSize(30);
+	text("Your score is: " + player.score, width/2, 120);
+	game_over_buttons.forEach(button => {
+		button.draw();
+	})
 }
 
 function draw(){
@@ -113,9 +150,14 @@ function draw(){
 		draw_menu();
 	} else if(game_state == "GAME"){
 		draw_game();
+	} else if(game_state == "GAME_OVER"){
+		draw_game_over();
 	} else if(game_state == "SETTINGS"){
-		debugger;
-	} else {
+		game_state = "MENU";
+	} else if(game_state == "ABOUT"){
+		game_state = "MENU";
+	}
+	else {
 		debugger;
 	}
 }

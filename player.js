@@ -5,6 +5,7 @@ const player = {
 	bullets: 6,
 	score: 0,
 	muzzleflashOn: false,
+	miss: false,
 	shoot(){
 		// Set muzzle player.muzzleflashOn to true for 100ms
 		this.muzzleflashOn = true;
@@ -21,14 +22,19 @@ const player = {
 		// Draws bullet trajectory
 		// line(player.x, player.y, player.x + a, player.y + b);
 
-		let hit = false;
+		this.miss = true;
 		enemies.forEach((enemy, index) => {
 			if(pDistance(enemy.x, enemy.y, player.x, player.y, player.x + a, player.y + b) <= enemy.radius){
 				player.score++;
-				hit = true;
+				this.miss = false;
 				delete enemies[index];
 			};
 		})
+
+		if(this.miss){
+			game_state = "GAME_OVER"
+		}
+		
 	},
     draw: function(){
 		let rotation = -(180 + atan2(mouseX - this.x, mouseY - this.y));
