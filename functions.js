@@ -60,26 +60,37 @@ function drawFrameRate(){
 
 function mousePressed() {
 	if(game_state=="MENU"){
-		menu_buttons.forEach(button=>{
+		UI.buttons.menu.forEach(button=>{
 			if(button.isMouseOnButton()){
 				button.press()
 			}
 		});
 	} else if(game_state=="GAME"){
-		if (player.bullets > 0) {
-			player.bullets -= 1;
-			player.shoot();
-		} else {
-			empty.setVolume(0.3);
-			empty.play();
-		};
+		player.shoot();
 	} else if(game_state=="GAME_OVER"){
-		game_over_buttons.forEach(button=>{
+		UI.buttons.game_over.forEach(button=>{
 			if(button.isMouseOnButton()){
 				button.press()
 			}
 		});
 	}
+}
+
+function toggleFullscreen(){
+	var elem = document.documentElement;
+
+	  if (elem.requestFullscreen) {
+		elem.requestFullscreen();
+	  } else if (elem.mozRequestFullScreen) { /* Firefox */
+		elem.mozRequestFullScreen();
+	  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+		elem.webkitRequestFullscreen();
+	  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+		elem.msRequestFullscreen();
+	  }
+	
+	  setTimeout(()=>{resizeCanvas(displayWidth, windowHeight)}, 200);
+	
 }
 
 
@@ -116,5 +127,7 @@ function pDistance(x, y, x1, y1, x2, y2) {
 
 
 const settings = {
-	gunShotSound: true,
+	speed: 1,
+	soundEffects: true,
+	music: true,
 }

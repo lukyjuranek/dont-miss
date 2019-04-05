@@ -6,18 +6,23 @@ let spawns = [];
 var game_state = "MENU";
 let spawnRange = [0, 180];
 
-var menu_buttons = [];
-var game_over_buttons = [];
-
 let fps=0;
+
+const UI = {
+	buttons: {
+		menu: [],
+		game_over: []
+	}
+}
+
 // TODO: 
-// -buttons hover
+// -add variables.js
 // -edit revolver
 // -shooting behind
-// -find better terrain texture
 // -multikill
 
 // Not sure if done
+// -find better terrain texture
 // -add random spawn
 // -ammo
 
@@ -30,13 +35,14 @@ function setup() {
 	setInterval(spawn, 500); // spawn enemy every x seconds	
 	// checkboxAreas = createCheckbox('Visible spawn areas', false);
 	// checkboxSpawns = createCheckbox('Visible spawns', false);
-	menu_buttons[0] = new Button("Play", "GAME", width/2, 230, 200, 55);
-	menu_buttons[1] = new Button("Settings", "SETTINGS", width/2, 330, 200, 55);
-	menu_buttons[2] = new Button("About", "ABOUT", width/2, 430, 200, 55);
+	UI.buttons.menu[0] = new Button("Play", "GAME", width/2, 200, 200, 55);
+	UI.buttons.menu[1] = new Button("Controls", "CONTROLS", width/2, 300, 200, 55);
+	UI.buttons.menu[2] = new Button("Settings", "SETTINGS", width/2, 400, 200, 55);
+	UI.buttons.menu[3] = new Button("About", "ABOUT", width/2, 500, 200, 55);
 
-	game_over_buttons[0] = new Button("Retry", "GAME", width/2, 270, 280, 55);
-	game_over_buttons[1] = new Button("Back to menu", "MENU", width/2, 390, 280, 55);
-	// game_over_buttons[2] = new Button("About", "ABOUT", width/2, 400, 150, 50);
+	UI.buttons.game_over[0] = new Button("Retry", "GAME", width/2, 270, 280, 55);
+	UI.buttons.game_over[1] = new Button("Back to menu", "MENU", width/2, 390, 280, 55);
+	// UI.buttons.game_over[2] = new Button("About", "ABOUT", width/2, 400, 150, 50);
 
 	setInterval(()=>{
 		fps = frameRate();
@@ -48,7 +54,7 @@ function setup() {
 function preload() {
 	// GPX
 	plank = loadImage('img/plank.png');
-	terrain = loadImage('img/terrain.jpg');
+	terrain = loadImage('img/beachsand.jpg');
 	hat = loadImage('img/hat.png');
 	gun = loadImage('img/gun.png');
 	muzzleflash = loadImage('img/muzzleflash.png');
@@ -56,7 +62,7 @@ function preload() {
 	// Sounds
 	empty = loadSound('sounds/empty.wav');
 	shot = loadSound('sounds/shot.wav');
-	reload = loadSound('sounds/reload.mp3');
+	reload = loadSound('sounds/reload.wav');
 
 	PressStart2P = loadFont('fonts/PressStart2P.ttf');
 }
@@ -96,12 +102,7 @@ function draw_game() {
 	text(player.score, width-50, 40)
 
 	if(player.bullets == 0){
-		player.bullets = -1;
-		setTimeout(()=>{player.bullets = 6}, 2000)
-		if(settings.gunShotSound){
-			reload.play();
-		};
-		console.log("reload");
+		player.reload();
 	};
 
 	// let rotation = atan2(mouseX - player.x, mouseY - player.y);
@@ -118,9 +119,9 @@ function draw_menu(){
 	textSize(50);
 	fill(255);
 	noStroke();
-	text("Don't miss!!!", width/2, 100);
+	text("Don't miss!!!", width/2, 90);
 	
-	menu_buttons.forEach(button => {
+	UI.buttons.menu.forEach(button => {
 		button.draw();
 	})
 
@@ -140,7 +141,7 @@ function draw_game_over(){
 	}
 	textSize(30);
 	text("Your score is: " + player.score, width/2, 120);
-	game_over_buttons.forEach(button => {
+	UI.buttons.game_over.forEach(button => {
 		button.draw();
 	})
 }
@@ -152,6 +153,8 @@ function draw(){
 		draw_game();
 	} else if(game_state == "GAME_OVER"){
 		draw_game_over();
+	} else if(game_state == "CONTROLS"){
+		game_state = "MENU";
 	} else if(game_state == "SETTINGS"){
 		game_state = "MENU";
 	} else if(game_state == "ABOUT"){

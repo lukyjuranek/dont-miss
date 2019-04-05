@@ -2,7 +2,7 @@ class Enemy {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.speed = 1;
+        this.speed = settings.speed;
         this.radius = 10;
     }
     draw(){
