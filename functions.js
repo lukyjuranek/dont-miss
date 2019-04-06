@@ -1,10 +1,80 @@
+function initButtons() {
+
+	// MENU
+
+	UI.buttons.menu[0] = new Button("Play", "GAME", width / 2, 2 * (height / 6), 280, 55, function () {
+		resetGame();
+	});
+	UI.buttons.menu[1] = new Button("Controls", "CONTROLS", width / 2, 3 * (height / 6), 280, 55);
+	UI.buttons.menu[2] = new Button("Settings", "SETTINGS", width / 2, 4 * (height / 6), 280, 55);
+	UI.buttons.menu[3] = new Button("About", "ABOUT", width / 2, 5 * (height / 6), 280, 55);
+	UI.buttons.menu[4] = new imgButton(fullscreen, width - 70, height - 70, 50, 50, function () {
+		toggleFullscreen();
+	});
+	UI.buttons.menu[5] = new imgButton(logo, 70, height - 70, 50, 50, function () {
+		window.location.href = "http://lukyjuranek.jecool.net"
+	});
+
+	// GAME_OVER
+	UI.buttons.game_over[0] = new Button("Retry", "GAME", width / 2, 4 * (height / 6), 280, 55, function () {
+		resetGame();
+	});
+	UI.buttons.game_over[1] = new Button("Back to menu", "MENU", width / 2, 5 * (height / 6), 280, 55);
+	UI.buttons.game_over[2] = UI.buttons.menu[4];
+
+	// SETTINGS
+	// UI.buttons.settings[0] = new Button("Play", "GAME", width / 2, 2 * (height / 6), 280, 55);
+	// UI.buttons.settings[0].onPress = function () {
+	// 	resetGame();
+	// }
+	let soundEffects = settings.soundEffects ? "ON" : "OFF";
+	UI.buttons.settings[0] = new Button("SFX: " + soundEffects, "SETTINGS", width / 2, 2 * (height / 6), 280, 55, function () {
+		settings.soundEffects = !settings.soundEffects;
+		let soundEffects = settings.soundEffects ? "ON" : "OFF";
+		this.text = "SFX: " + soundEffects;
+	});
+	let music = settings.music ? "ON" : "OFF";
+	UI.buttons.settings[1] = new Button("Music: " + music, "SETTINGS", width / 2, 3 * (height / 6), 280, 55, function () {
+		settings.music = !settings.music;
+		let music = settings.music ? "ON" : "OFF";
+		this.text = "Music: " + music;
+	});
+	UI.buttons.settings[3] = new Button("Back to menu", "MENU", width / 2, 5 * (height / 6), 280, 55);
+	UI.buttons.settings[4] = UI.buttons.menu[4];
+}
+
+function refreshHighScore() {
+	try {
+		player.high_score = getCookie("high_score");
+	} catch (err) {
+		console.warn(err.message);
+	};
+
+	if (player.score > player.high_score) {
+		player.high_score = player.score;
+		createCookie("high_score", player.high_score)
+	}
+}
+
 function spawn() {
-	let x = getRndIntBtwnTwoRanges(spawnRange[0], spawnRange[1], width - spawnRange[1], width);
-	let y = getRndIntBtwnTwoRanges(spawnRange[0], spawnRange[1], height - spawnRange[1], height);
+	let x = getRndIntBtwnTwoRanges(settings.spawnRange[0], settings.spawnRange[1], width - settings.spawnRange[1], width);
+	let y = getRndIntBtwnTwoRanges(settings.spawnRange[0], settings.spawnRange[1], height - settings.spawnRange[1], height);
 	let enemy = new Enemy(x, y);
 	spawns.push([x, y]);
 	// console.log(x+" "+y);
 	enemies.push(enemy);
+}
+
+function resetGame() {
+	enemies = [];
+	spawns = [];
+	player.x = width / 2;
+	player.y = height / 2;
+	player.speed = 1;
+	player.bullets = 6;
+	player.score = 0;
+	player.muzzleflashOn = false;
+	player.miss = false;
 }
 
 function getRndInt(min, max) {
@@ -45,13 +115,17 @@ function drawBullets() {
 function drawSpawnAreas() {
 	stroke(0);
 	noFill();
-	rect(spawnRange[0], spawnRange[0], spawnRange[1], spawnRange[1]);
-	rect(width - spawnRange[1], spawnRange[0], spawnRange[1], spawnRange[1]);
-	rect(width - spawnRange[1], height - spawnRange[1], spawnRange[1], spawnRange[1]);
-	rect(spawnRange[0], height - spawnRange[1], spawnRange[1], spawnRange[1]);
+	rectMode(CORNER);
+
+	let w = settings.spawnRange[1] - settings.spawnRange[0];
+	let h = settings.spawnRange[1] - settings.spawnRange[0];
+	rect(settings.spawnRange[0], settings.spawnRange[0], w, h);
+	rect(width - settings.spawnRange[1], settings.spawnRange[0], w, h);
+	rect(settings.spawnRange[0], height - settings.spawnRange[1], w, h);
+	rect(width - settings.spawnRange[1], height - settings.spawnRange[1], w, h);
 }
 
-function drawFrameRate(){
+function drawFrameRate() {
 	fill(255);
 	stroke(0);
 	textSize(20);
@@ -59,38 +133,69 @@ function drawFrameRate(){
 }
 
 function mousePressed() {
-	if(game_state=="MENU"){
-		UI.buttons.menu.forEach(button=>{
-			if(button.isMouseOnButton()){
+	if (game_state == "MENU") {
+		UI.buttons.menu.forEach(button => {
+			if (button.isMouseOnButton()) {
 				button.press()
 			}
 		});
-	} else if(game_state=="GAME"){
+	} else if (game_state == "GAME") {
 		player.shoot();
-	} else if(game_state=="GAME_OVER"){
-		UI.buttons.game_over.forEach(button=>{
-			if(button.isMouseOnButton()){
+	} else if (game_state == "SETTINGS") {
+		UI.buttons.settings.forEach(button => {
+			if (button.isMouseOnButton()) {
+				button.press()
+			}
+		});
+	} else if (game_state == "GAME_OVER") {
+		UI.buttons.game_over.forEach(button => {
+			if (button.isMouseOnButton()) {
 				button.press()
 			}
 		});
 	}
 }
 
-function toggleFullscreen(){
+function toggleFullscreen() {
 	var elem = document.documentElement;
 
-	  if (elem.requestFullscreen) {
-		elem.requestFullscreen();
-	  } else if (elem.mozRequestFullScreen) { /* Firefox */
-		elem.mozRequestFullScreen();
-	  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-		elem.webkitRequestFullscreen();
-	  } else if (elem.msRequestFullscreen) { /* IE/Edge */
-		elem.msRequestFullscreen();
-	  }
-	
-	  setTimeout(()=>{resizeCanvas(displayWidth, windowHeight)}, 200);
-	
+	if (settings.fullscreen) {
+		if (document.exitFullscreen) {
+			document.exitFullscreen();
+		} else if (document.mozCancelFullScreen) {
+			/* Firefox */
+			document.mozCancelFullScreen();
+		} else if (document.webkitExitFullscreen) {
+			/* Chrome, Safari and Opera */
+			document.webkitExitFullscreen();
+		} else if (document.msExitFullscreen) {
+			/* IE/Edge */
+			document.msExitFullscreen();
+		};
+
+		settings.fullscreen = false;
+	} else {
+		if (elem.requestFullscreen) {
+			elem.requestFullscreen();
+		} else if (elem.mozRequestFullScreen) {
+			/* Firefox */
+			elem.mozRequestFullScreen();
+		} else if (elem.webkitRequestFullscreen) {
+			/* Chrome, Safari & Opera */
+			elem.webkitRequestFullscreen();
+		} else if (elem.msRequestFullscreen) {
+			/* IE/Edge */
+			elem.msRequestFullscreen();
+		};
+
+		settings.fullscreen = true;
+	}
+
+	setTimeout(() => {
+		resizeCanvas(displayWidth, windowHeight);
+		initButtons();
+	}, 200);
+
 }
 
 
@@ -130,4 +235,7 @@ const settings = {
 	speed: 1,
 	soundEffects: true,
 	music: true,
+	fullscreen: false,
+	spawnSpeed: 2,
+	spawnRange: [0, 100]
 }

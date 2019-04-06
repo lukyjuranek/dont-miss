@@ -1,11 +1,12 @@
 class Button {
-    constructor(text, newstate, x, y, width, height) {
+    constructor(text, newstate, x, y, width, height, onPress) {
         this.text = text;
         this.newstate = newstate;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.onPress = onPress;
     }
     draw(){
         textAlign(CENTER, CENTER);
@@ -28,17 +29,52 @@ class Button {
         }
     }
     press(){
-        game_state=this.newstate;
-        if(this.newstate == "GAME") {
-            enemies = [];
-            player.x = width / 2;
-	        player.y = height / 2;
-            player.speed = 1;
-            player.bullets = 6;
-            player.score = 0;
-            player.muzzleflashOn = false;
-            player.miss = false;
+        game_state = this.newstate;
+        try{
+            this.onPress();
+        } catch(err) {
+            // console.warn(this.text + " button doesn't have callback")
+            console.warn(err.message);
         }
+        refreshHighScore();
+    }
+    isMouseOnButton(){
+        return mouseX>this.x-this.width/2 && mouseX<this.x+this.width/2 && mouseY>this.y-this.height/2 && mouseY<this.y+this.height/2;
+    }
+}
+
+
+
+class imgButton {
+    constructor(imgName, x, y, width, height, onPress) {
+        this.imgName = imgName;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.onPress = onPress;
+    }
+    draw(){
+        // textAlign(CENTER, CENTER);
+        // noStroke();
+        // textSize(20);
+        imageMode(CENTER);
+        // fill(255);
+        
+        if(this.isMouseOnButton()){
+            image(this.imgName, this.x, this.y, this.width-5, this.height-5);
+        } else {
+            image(this.imgName, this.x, this.y, this.width, this.height);
+        }
+    }
+    press(){
+        try{
+            this.onPress();
+        } catch(err) {
+            // console.warn(this.text + " button doesn't have callback")
+            console.warn(err.message);
+        };
+        refreshHighScore();
     }
     isMouseOnButton(){
         return mouseX>this.x-this.width/2 && mouseX<this.x+this.width/2 && mouseY>this.y-this.height/2 && mouseY<this.y+this.height/2;

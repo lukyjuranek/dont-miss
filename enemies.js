@@ -14,13 +14,20 @@ class Enemy {
         fill(0);
         line(0, 0, 0, -20);
         ellipseMode(CENTER);
-		ellipse(0, 0, 20, 20);
-		pop();
+		circle(0, 0, this.radius);
+        pop();
+        
+        // circle(this.x, this.y, this.radius);
     }
     move(){
         let a = this.speed * sin(atan2(player.x - this.x, player.y - this.y));
         let b = this.speed * cos(atan2(player.x - this.x, player.y - this.y));
         this.x += a;
         this.y += b;
+    }
+    checkPlayerDist(){
+        if(dist(player.x, player.y, this.x, this.y) < this.radius + player.radius){
+            game_state = "GAME_OVER"
+        }
     }
 }

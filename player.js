@@ -1,17 +1,21 @@
 const player = {
 	x: 0,
 	y: 0,
-	speed: settings.speed,
+	speed: 1,
 	bullets: 6,
 	score: 0,
+	high_score: 0,
 	muzzleflashOn: false,
 	miss: false,
+	radius: 30,
 	shoot() {
 		// Set muzzle player.muzzleflashOn to true for 100ms
 
 		if (this.bullets <= 0) {
-			empty.setVolume(0.1);
-			empty.play();
+			if( settings.soundEffects){
+				empty.setVolume(0.1);
+				empty.play();
+			}
 		} else {
 			this.bullets -= 1;
 
@@ -67,7 +71,12 @@ const player = {
 		stroke(255);
 		image(gun, 0, -40, 80, 60)
 		image(hat, 0, 0, 50, 50);
+		if (this.muzzleflashOn) {
+			image(muzzleflash, 0, -100, 80, 80);
+		};
+		// circle(0, 0, this.radius);
 		pop();
+		
 	},
 	control: function () {
 		// TODO: two buttons at once problem
@@ -111,13 +120,5 @@ const player = {
 				this.reload();
 			};
 		};
-	},
-	drawMuzzleFlash: function () {
-		let rotation = -(180 + atan2(mouseX - this.x, mouseY - this.y));
-		push();
-		translate(this.x, this.y);
-		rotate(rotation);
-		image(muzzleflash, 0, -100, 80, 80)
-		pop();
 	}
 }
