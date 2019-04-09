@@ -43,6 +43,7 @@ function preload() {
 	fullscreen = loadImage('img/fullscreen.png');
 	logo = loadImage('img/logo.png');
 	terrain = loadImage('img/beachsand.jpg');
+	enemyHat = loadImage('img/enemy-hat.png');
 	hat = loadImage('img/hat.png');
 	gun = loadImage('img/gun.png');
 	muzzleflash = loadImage('img/muzzleflash.png');

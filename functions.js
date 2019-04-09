@@ -21,6 +21,7 @@ function initButtons() {
 	});
 	UI.buttons.game_over[1] = new Button("Back to menu", "MENU", width / 2, 5 * (height / 6), 280, 55);
 	UI.buttons.game_over[2] = UI.buttons.menu[4];
+	UI.buttons.game_over[3] = UI.buttons.menu[5];
 
 	// SETTINGS
 	// UI.buttons.settings[0] = new Button("Play", "GAME", width / 2, 2 * (height / 6), 280, 55);
@@ -41,6 +42,7 @@ function initButtons() {
 	});
 	UI.buttons.settings[3] = new Button("Back to menu", "MENU", width / 2, 5 * (height / 6), 280, 55);
 	UI.buttons.settings[4] = UI.buttons.menu[4];
+	UI.buttons.settings[5] = UI.buttons.menu[5];
 }
 
 function refreshHighScore() {

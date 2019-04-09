@@ -3,7 +3,7 @@ class Enemy {
         this.x = x;
         this.y = y;
         this.speed = settings.speed;
-        this.radius = 10;
+        this.radius = 15;
     }
     draw(){
         let rotation = -(180 + atan2(player.x - this.x, player.y - this.y));
@@ -12,9 +12,12 @@ class Enemy {
 		rotate(rotation);
         stroke(255);
         fill(0);
-        line(0, 0, 0, -20);
         ellipseMode(CENTER);
-		circle(0, 0, this.radius);
+        // line(0, 0, 0, -20);
+        image(enemyHat, 0, 0, this.radius*2+5, this.radius*2+5); // +5 hat is not square
+        // stroke(255,0,0);
+        // noFill();
+		// circle(0, 0, this.radius);
         pop();
         
         // circle(this.x, this.y, this.radius);
