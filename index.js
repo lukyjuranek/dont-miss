@@ -1,19 +1,3 @@
-var terrain, hat, gun, muzzleflash, bullet;
-var empty, shot;
-var width, height, tmX, tmY;
-let enemies = [];
-let spawns = [];
-var game_state = "MENU";
-
-let fps = 0;
-
-const UI = {
-	buttons: {
-		menu: [],
-		game_over: [],
-		settings: []
-	}
-}
 
 function setup() {
 	createCanvas(displayWidth, windowHeight);
@@ -28,7 +12,6 @@ function setup() {
 	
 	initButtons();
 	
-	setInterval(spawn, 1000/settings.spawnSpeed); // spawn enemy every x seconds	
 
 	setInterval(() => {
 		fps = frameRate();
@@ -71,11 +54,13 @@ function draw_game() {
 
 	// // Draw spawns
 	// if (checkboxSpawns.checked()) {
-	// 	spawns.forEach(spawn => {
-	// 		ellipse(spawn[0], spawn[1], 5, 5)
-	// 	});
+	// spawns.forEach(spawn => {
+	// 	stroke(255,0,0);
+	// 	fill(255,0,0);
+	// 	ellipse(spawn[0], spawn[1], 5, 5)
+	// });
 	// };
-	// // Draw spawn areas
+	// Draw spawn areas
 	// if (checkboxAreas.checked()) {
 	// 	drawSpawnAreas();
 	// };
@@ -99,6 +84,9 @@ function draw_menu() {
 	fill(255);
 	noStroke();
 	text("Don't miss!!!", width / 2, 1*(height/6));
+
+	textSize(19);
+	text("Game mode:", width - 220, 3*(height/6));
 
 	UI.buttons.menu.forEach(button => {
 		button.draw();

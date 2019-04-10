@@ -1,50 +1,3 @@
-function initButtons() {
-
-	// MENU
-
-	UI.buttons.menu[0] = new Button("Play", "GAME", width / 2, 2 * (height / 6), 280, 55, function () {
-		resetGame();
-	});
-	UI.buttons.menu[1] = new Button("Controls", "CONTROLS", width / 2, 3 * (height / 6), 280, 55);
-	UI.buttons.menu[2] = new Button("Settings", "SETTINGS", width / 2, 4 * (height / 6), 280, 55);
-	UI.buttons.menu[3] = new Button("About", "ABOUT", width / 2, 5 * (height / 6), 280, 55);
-	UI.buttons.menu[4] = new imgButton(fullscreen, width - 70, height - 70, 50, 50, function () {
-		toggleFullscreen();
-	});
-	UI.buttons.menu[5] = new imgButton(logo, 70, height - 70, 50, 50, function () {
-		window.location.href = "http://lukyjuranek.jecool.net"
-	});
-
-	// GAME_OVER
-	UI.buttons.game_over[0] = new Button("Retry", "GAME", width / 2, 4 * (height / 6), 280, 55, function () {
-		resetGame();
-	});
-	UI.buttons.game_over[1] = new Button("Back to menu", "MENU", width / 2, 5 * (height / 6), 280, 55);
-	UI.buttons.game_over[2] = UI.buttons.menu[4];
-	UI.buttons.game_over[3] = UI.buttons.menu[5];
-
-	// SETTINGS
-	// UI.buttons.settings[0] = new Button("Play", "GAME", width / 2, 2 * (height / 6), 280, 55);
-	// UI.buttons.settings[0].onPress = function () {
-	// 	resetGame();
-	// }
-	let soundEffects = settings.soundEffects ? "ON" : "OFF";
-	UI.buttons.settings[0] = new Button("SFX: " + soundEffects, "SETTINGS", width / 2, 2 * (height / 6), 280, 55, function () {
-		settings.soundEffects = !settings.soundEffects;
-		let soundEffects = settings.soundEffects ? "ON" : "OFF";
-		this.text = "SFX: " + soundEffects;
-	});
-	let music = settings.music ? "ON" : "OFF";
-	UI.buttons.settings[1] = new Button("Music: " + music, "SETTINGS", width / 2, 3 * (height / 6), 280, 55, function () {
-		settings.music = !settings.music;
-		let music = settings.music ? "ON" : "OFF";
-		this.text = "Music: " + music;
-	});
-	UI.buttons.settings[3] = new Button("Back to menu", "MENU", width / 2, 5 * (height / 6), 280, 55);
-	UI.buttons.settings[4] = UI.buttons.menu[4];
-	UI.buttons.settings[5] = UI.buttons.menu[5];
-}
-
 function refreshHighScore() {
 	try {
 		player.high_score = getCookie("high_score");
@@ -59,8 +12,18 @@ function refreshHighScore() {
 }
 
 function spawn() {
-	let x = getRndIntBtwnTwoRanges(settings.spawnRange[0], settings.spawnRange[1], width - settings.spawnRange[1], width);
-	let y = getRndIntBtwnTwoRanges(settings.spawnRange[0], settings.spawnRange[1], height - settings.spawnRange[1], height);
+	// let x = getRndIntBtwnTwoRanges(settings.spawnRange[0], settings.spawnRange[1], width - settings.spawnRange[1], width);
+	// let y = getRndIntBtwnTwoRanges(settings.spawnRange[0], settings.spawnRange[1], height - settings.spawnRange[1], height);
+	let x;
+	let y;
+	while(true){
+		x = getRndInt(0, width);
+		y = getRndInt(0, height);
+		if(dist(x, y, width/2, height/2) > 300){
+			break;
+		};	
+	};
+
 	let enemy = new Enemy(x, y);
 	spawns.push([x, y]);
 	// console.log(x+" "+y);
@@ -68,6 +31,12 @@ function spawn() {
 }
 
 function resetGame() {
+	try{
+		clearInterval(spawnInterval);
+		clearInterval(waveInterval);
+	} catch(err) {
+		console.warn(err.message);
+	};
 	enemies = [];
 	spawns = [];
 	player.x = width / 2;
@@ -77,6 +46,27 @@ function resetGame() {
 	player.score = 0;
 	player.muzzleflashOn = false;
 	player.miss = false;
+	wave = 1;
+	if(settings.gameMode == "CLASSIC"){
+		player.speed = 1;
+		Enemy.speed = 1;
+		settings.spawnSpeed = 1;
+		waveInterval = setInterval(()=>{
+			wave++;
+			clearInterval(spawnInterval);
+			spawnInterval = setInterval(spawn, 1000/(wave+settings.spawnSpeed));
+		}, 10000)
+	} else if (settings.gameMode == "SPEEDY") {
+		player.speed = 3;
+		Enemy.speed = 1;
+		settings.spawnSpeed = 3;
+		waveInterval = setInterval(()=>{
+			wave++;
+			clearInterval(spawnInterval);
+			spawnInterval = setInterval(spawn, 1000/(wave+settings.spawnSpeed));
+		}, 10000)
+	};
+	spawnInterval = setInterval(spawn, 1000/settings.spawnSpeed); // spawn enemy every x seconds	
 }
 
 function getRndInt(min, max) {
@@ -230,14 +220,4 @@ function pDistance(x, y, x1, y1, x2, y2) {
 	var dx = x - xx;
 	var dy = y - yy;
 	return Math.sqrt(dx * dx + dy * dy);
-}
-
-
-const settings = {
-	speed: 1,
-	soundEffects: true,
-	music: true,
-	fullscreen: false,
-	spawnSpeed: 2,
-	spawnRange: [0, 100]
 }
