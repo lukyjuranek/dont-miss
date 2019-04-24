@@ -52,13 +52,14 @@ function draw_game() {
 	player.control();
 	player.draw();
 
-	// // Draw spawns
-	// if (checkboxSpawns.checked()) {
-	// spawns.forEach(spawn => {
-	// 	stroke(255,0,0);
-	// 	fill(255,0,0);
-	// 	ellipse(spawn[0], spawn[1], 5, 5)
-	// });
+	// Draw spawns
+	// if (true) {
+	// 	spawns.forEach(spawn => {
+	// 		stroke(255,0,0);
+	// 		fill(255,0,0);
+	// 		console.log("draw");
+	// 		ellipse(spawn[0], spawn[1], 5, 5)
+	// 	});
 	// };
 	// Draw spawn areas
 	// if (checkboxAreas.checked()) {

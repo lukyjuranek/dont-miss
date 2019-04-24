@@ -12,22 +12,34 @@ function refreshHighScore() {
 }
 
 function spawn() {
-	// let x = getRndIntBtwnTwoRanges(settings.spawnRange[0], settings.spawnRange[1], width - settings.spawnRange[1], width);
-	// let y = getRndIntBtwnTwoRanges(settings.spawnRange[0], settings.spawnRange[1], height - settings.spawnRange[1], height);
-	let x;
-	let y;
-	while(true){
-		x = getRndInt(0, width);
-		y = getRndInt(0, height);
-		if(dist(x, y, width/2, height/2) > 300){
-			break;
-		};	
-	};
-
-	let enemy = new Enemy(x, y);
-	spawns.push([x, y]);
-	// console.log(x+" "+y);
+	// let x = getRndIntTwoRanges(settings.spawnRange[0], settings.spawnRange[1], width - settings.spawnRange[1], width);
+	// let y = getRndIntTwoRanges(settings.spawnRange[0], settings.spawnRange[1], height - settings.spawnRange[1], height);
+	// let x;
+	// let y;
+	// while(true){
+	// 	x = getRndInt(0, width);
+	// 	y = getRndInt(0, height);
+	// 	if(dist(x, y, width/2, height/2) > 300){
+	// 		break;
+	// 	};	
+	// };
+	let rndSpawns = randomSpawn(settings.spawnRange[1]);
+	let enemy = new Enemy(rndSpawns[0], rndSpawns[1]);
+	spawns.push(rndSpawns);
 	enemies.push(enemy);
+}
+
+function randomSpawn(padding){
+	let y = getRndInt(0, width);
+	let x;
+	if(y<padding || y>height-padding) {
+		x = getRndInt(0, width);
+	} else if (y>padding || y<height-padding){
+		x = getRndIntTwoRanges(0, padding, width-padding, width);
+	} else {
+		console.error("random spawn generated out of screen")
+	};
+	return [x, y];
 }
 
 function resetGame() {
@@ -73,7 +85,7 @@ function getRndInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function getRndIntBtwnTwoRanges(min1, max1, min2, max2) {
+function getRndIntTwoRanges(min1, max1, min2, max2) {
 	let rnd = getRndInt(0, 1);
 	if (rnd == 0) {
 		return getRndInt(min1, max1);
