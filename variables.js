@@ -19,7 +19,7 @@ const UI = {
 const settings = {
 	speed: 1,
 	soundEffects: true,
-	music: true,
+	music: false,
 	fullscreen: false,
 	spawnSpeed: 2,
 	spawnRange: [0, 100],

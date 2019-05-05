@@ -132,9 +132,20 @@ function draw_game_over() {
 }
 
 function draw() {
-	var t0 = performance.now();
+	// var t0 = performance.now();
 	if (game_state == "MENU") {
 		draw_menu();
+
+		// Tutorial
+		noStroke();
+		fill(255);
+		textSize(19);
+		text("Tutorial:", 220, 3.3*(height/6) - 40)
+
+		textSize(12);
+		text("- Kill as many enemies\nas possible", 220, 3.8*(height/6) - 40);
+		text("- Don't miss!!!", 220, 4.2*(height/6) - 40);
+
 	} else if (game_state == "GAME") {
 		draw_game();
 	} else if (game_state == "GAME_OVER") {
@@ -149,6 +160,6 @@ function draw() {
 		debugger;
 	}
 
-	var t1 = performance.now();
+	// var t1 = performance.now();
 	// console.log((t1 - t0));
 }

@@ -8,7 +8,7 @@ const player = {
 	muzzleflashOn: false,
 	miss: false,
 	radius: 30,
-	shoot() {
+	shoot: function() {
 		// Set muzzle player.muzzleflashOn to true for 100ms
 
 		if (this.bullets <= 0) {
