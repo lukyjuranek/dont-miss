@@ -1,13 +1,18 @@
 function refreshHighScore() {
 	try {
-		player.high_score = getCookie("high_score");
+		player.high_score.classic = getCookie("high_score_classic");
+		player.high_score.speedy = getCookie("high_score_speedy");
 	} catch (err) {
 		console.warn(err.message);
 	};
 
-	if (player.score > player.high_score) {
-		player.high_score = player.score;
-		createCookie("high_score", player.high_score)
+	if (player.score.classic > player.high_score.classic) {
+		player.high_score.classic = player.score.classic;
+		createCookie("high_score_classic", player.high_score.classic)
+	}
+	if (player.score.speedy > player.high_score.speedy){
+		player.high_score.speedy = player.score.speedy;
+		createCookie("high_score_speedy", player.high_score.speedy);
 	}
 }
 
@@ -55,7 +60,7 @@ function resetGame() {
 	player.y = height / 2;
 	player.speed = 1;
 	player.bullets = 6;
-	player.score = 0;
+	player.score = {classic: 0, speedy: 0},
 	player.muzzleflashOn = false;
 	player.miss = false;
 	wave = 1;

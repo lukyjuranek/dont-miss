@@ -70,8 +70,13 @@ function draw_game() {
 	drawBullets();
 	drawFrameRate();
 
-	textSize(32);
-	text(player.score, width - 50, 40)
+	if(settings.gameMode == "CLASSIC"){
+		textSize(32);
+		text(player.score.classic, width - 50, 40)
+	} else if(settings.gameMode == "SPEEDY"){
+		textSize(32);
+		text(player.score.speedy, width - 50, 40)
+	};
 
 	if (player.bullets == 0) {
 		player.reload();
@@ -121,11 +126,21 @@ function draw_game_over() {
 		text("You missed!!!", width / 2, 1*(height/6));
 	} else {
 		text("You died!!!", width / 2, 1*(height/6));
-	}
-	textSize(20);
-	text("Score: " + player.score, width / 2, 2*(height/6));
-	textSize(15);
-	text("High score: " + player.high_score, width / 2, 3*(height/6));
+	};
+
+	if(settings.gameMode == "CLASSIC"){
+		textSize(22);
+		text("Score: " + player.score.classic, width / 2, 2*(height/6));
+		textSize(12);
+		text("High score: " + player.high_score.classic, width / 2, 2.7*(height/6));
+		text("Game mode: " + settings.gameMode, width / 2, 3*(height/6));
+	} else if(settings.gameMode == "SPEEDY"){
+		textSize(22);
+		text("Score: " + player.score.speedy, width / 2, 2*(height/6));
+		textSize(12);
+		text("High score: " + player.high_score.speedy, width / 2, 2.7*(height/6));
+		text("Game mode: " + settings.gameMode, width / 2, 3*(height/6));
+	};
 	UI.buttons.game_over.forEach(button => {
 		button.draw();
 	})
@@ -140,11 +155,12 @@ function draw() {
 		noStroke();
 		fill(255);
 		textSize(19);
-		text("Tutorial:", 220, 3.3*(height/6) - 40)
+		text("Tutorial:", 220, 3*(height/6) - 40)
 
 		textSize(12);
-		text("- Kill as many enemies\nas possible", 220, 3.8*(height/6) - 40);
-		text("- Don't miss!!!", 220, 4.2*(height/6) - 40);
+		text("- Kill as many enemies\nas possible", 220, 3.6*(height/6) - 40);
+		text("- Don't die!!!", 220, 4*(height/6) - 40);
+		text("- Don't miss!!!", 220, 4.4*(height/6) - 40);
 
 	} else if (game_state == "GAME") {
 		draw_game();

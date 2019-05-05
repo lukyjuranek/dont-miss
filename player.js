@@ -3,8 +3,8 @@ const player = {
 	y: 0,
 	speed: 1,
 	bullets: 6,
-	score: 0,
-	high_score: 0,
+	score: {classic: 0, speedy: 0},
+	high_score: {classic: 0, speedy: 0},
 	muzzleflashOn: false,
 	miss: false,
 	radius: 30,
@@ -38,7 +38,11 @@ const player = {
 			this.miss = true;
 			enemies.forEach((enemy, index) => {
 				if (pDistance(enemy.x, enemy.y, player.x, player.y, player.x + a, player.y + b) <= enemy.radius) {
-					player.score++;
+					if(settings.gameMode == "CLASSIC"){
+						player.score.classic++;
+					} else if(settings.gameMode == "SPEEDY"){
+						player.score.speedy++;
+					};
 					this.miss = false;
 					delete enemies[index];
 				};
