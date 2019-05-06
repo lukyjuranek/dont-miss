@@ -11,20 +11,20 @@ class Button {
     draw(){
         textAlign(CENTER, CENTER);
         noStroke();
-        textSize(20);
+        textSize(settings.textSize*20);
         rectMode(CENTER);
         fill(255);
         
         if(this.isMouseOnButton()){
             // fill(0, 255, 200);
             // rect(this.x, this.y, this.width, this.height);
-            image(plank, this.x, this.y, this.width-this.x/100, this.height-this.y/100);
-            textSize(19);
+            image(plank, this.x, this.y, this.width*settings.buttonSize-this.x/100, this.height*settings.buttonSize-this.y/100);
+            textSize(settings.textSize*19);
             text(this.text, this.x, this.y);
         } else {
             // fill(0, 255, 0);
             // rect(this.x, this.y, this.width, this.height);
-            image(plank, this.x, this.y, this.width, this.height);
+            image(plank, this.x, this.y, this.width*settings.buttonSize, this.height*settings.buttonSize);
             text(this.text, this.x, this.y);
         }
     }
@@ -57,7 +57,7 @@ class imgButton {
     draw(){
         // textAlign(CENTER, CENTER);
         // noStroke();
-        // textSize(20);
+        // textSize(settings.textSize*20);
         imageMode(CENTER);
         // fill(255);
         

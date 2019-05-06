@@ -137,11 +137,11 @@ function drawSpawnAreas() {
 function drawFrameRate() {
 	fill(255);
 	stroke(0);
-	textSize(20);
+	textSize(settings.textSize*20);
 	text(fps.toFixed(0), 30, 30);
 }
 
-function mousePressed() {
+function mouseClicked() {
 	if (game_state == "MENU") {
 		UI.buttons.menu.forEach(button => {
 			if (button.isMouseOnButton()) {

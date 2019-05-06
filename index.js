@@ -35,8 +35,14 @@ function preload() {
 	empty = loadSound('sounds/empty.wav');
 	shot = loadSound('sounds/shot.wav');
 	reload = loadSound('sounds/reload.wav');
-
+	// Fonts
 	PressStart2P = loadFont('fonts/PressStart2P.ttf');
+	// Check mobile device
+	if(window.mobilecheck()){
+		settings.mobile = true
+		settings.textSize = 0.8;
+		settings.buttonSize = 0.7;
+	};
 }
 
 function draw_game() {
@@ -71,10 +77,10 @@ function draw_game() {
 	drawFrameRate();
 
 	if(settings.gameMode == "CLASSIC"){
-		textSize(32);
+		textSize(settings.textSize*32);
 		text(player.score.classic, width - 50, 40)
 	} else if(settings.gameMode == "SPEEDY"){
-		textSize(32);
+		textSize(settings.textSize*32);
 		text(player.score.speedy, width - 50, 40)
 	};
 
@@ -86,25 +92,44 @@ function draw_game() {
 function draw_menu() {
 	background(0);
 	textAlign(CENTER, CENTER);
-	textSize(50);
+	textSize(settings.textSize*50);
 	fill(255);
 	noStroke();
 	text("Don't miss!!!", width / 2, 1*(height/6));
 
-	textSize(19);
-	text("Game mode:", width - 220, 3*(height/6));
+	textSize(settings.textSize*19);
+	text("Game mode:", 5*(width/6), 2*(height/6));
+
+	// Tutorial
+	noStroke();
+	fill(255);
+	textSize(settings.textSize*19);
+	text("Tutorial:", width/6, 3*(height/6) - 40)
+
+	textSize(settings.textSize*12);
+	text("- Kill as many enemies\nas possible", width/6, 3.6*(height/6) - 40);
+	text("- Don't die!!!", width/6, 4*(height/6) - 40);
+	text("- Don't miss!!!", width/6, 4.4*(height/6) - 40);
+	// Highscores
+	textSize(settings.textSize*19);
+	text("Highscores:", 5*(width/6), 4*(height/6) - 40)
+	textSize(settings.textSize*12);
+	text("CLASSIC - " + player.high_score.classic, 5*(width/6), 4.4*(height/6) - 40);
+	text("SPEEDY - " + player.high_score.speedy, 5*(width/6), 4.7*(height/6) - 40);
 
 	UI.buttons.menu.forEach(button => {
 		button.draw();
 	});
 
-	drawCrosshairs();
+	if(!settings.mobile){
+		drawCrosshairs();
+	};
 }
 
 function draw_settings() {
 	background(0);
 	textAlign(CENTER, CENTER);
-	textSize(40);
+	textSize(settings.textSize*40);
 	fill(255);
 	noStroke();
 	text("Settings", width / 2, 1*(height/6));
@@ -119,7 +144,7 @@ function draw_settings() {
 function draw_game_over() {
 	background(0);
 	textAlign(CENTER, CENTER);
-	textSize(40);
+	textSize(settings.textSize*40);
 	fill(255);
 	noStroke();
 	if (player.miss) {
@@ -129,15 +154,15 @@ function draw_game_over() {
 	};
 
 	if(settings.gameMode == "CLASSIC"){
-		textSize(22);
+		textSize(settings.textSize*22);
 		text("Score: " + player.score.classic, width / 2, 2*(height/6));
-		textSize(12);
+		textSize(settings.textSize*12);
 		text("High score: " + player.high_score.classic, width / 2, 2.7*(height/6));
 		text("Game mode: " + settings.gameMode, width / 2, 3*(height/6));
 	} else if(settings.gameMode == "SPEEDY"){
-		textSize(22);
+		textSize(settings.textSize*22);
 		text("Score: " + player.score.speedy, width / 2, 2*(height/6));
-		textSize(12);
+		textSize(settings.textSize*12);
 		text("High score: " + player.high_score.speedy, width / 2, 2.7*(height/6));
 		text("Game mode: " + settings.gameMode, width / 2, 3*(height/6));
 	};
@@ -150,18 +175,6 @@ function draw() {
 	// var t0 = performance.now();
 	if (game_state == "MENU") {
 		draw_menu();
-
-		// Tutorial
-		noStroke();
-		fill(255);
-		textSize(19);
-		text("Tutorial:", 220, 3*(height/6) - 40)
-
-		textSize(12);
-		text("- Kill as many enemies\nas possible", 220, 3.6*(height/6) - 40);
-		text("- Don't die!!!", 220, 4*(height/6) - 40);
-		text("- Don't miss!!!", 220, 4.4*(height/6) - 40);
-
 	} else if (game_state == "GAME") {
 		draw_game();
 	} else if (game_state == "GAME_OVER") {
