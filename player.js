@@ -86,20 +86,23 @@ const player = {
 		// TODO: two buttons at once problem
 		let a = this.speed * sin(45); // X-axis
 		let b = this.speed * cos(45); // Y-asix
-
-		if (keyIsDown(87) && keyIsDown(65)) { // WA
+		let topEdge = player.y > 0;
+		let rightEdge = player.x < width;
+		let leftEdge = player.x > 0;
+		let bottomEdge = player.y < height;
+		if (keyIsDown(87) && keyIsDown(65) && leftEdge && topEdge) { // WA
 			this.x -= a;
 			this.y -= b;
-		} else if (keyIsDown(65) && keyIsDown(83)) { //AS
+		} else if (keyIsDown(65) && keyIsDown(83) && leftEdge && bottomEdge) { //AS
 			this.x -= a;
 			this.y += b;
-		} else if (keyIsDown(83) && keyIsDown(68)) { //SD
+		} else if (keyIsDown(83) && keyIsDown(68) && bottomEdge && rightEdge) { //SD
 			this.x += a;
 			this.y += b;
-		} else if (keyIsDown(68) && keyIsDown(87)) { //DW
+		} else if (keyIsDown(68) && keyIsDown(87) && topEdge && rightEdge) { //DW
 			this.x += a;
 			this.y -= b;
-		} else if (keyIsDown(87)) { //W 87
+		} else if (keyIsDown(87) && topEdge) { //W 87
 			this.y -= this.speed;
 			// if(key == "w" && !keyIsDown(65) && !keyIsDown(83) && !keyIsDown(68)){
 			// 	this.y -= this.speed;
@@ -110,15 +113,15 @@ const player = {
 			// 	this.x += a;
 			// 	this.y -= b;
 			// }
-		} else if (keyIsDown(65)) { //A
+		} else if (keyIsDown(65) && leftEdge) { //A
 			this.x -= this.speed;
-		} else if (keyIsDown(83)) { //S
+		} else if (keyIsDown(83) && bottomEdge) { //S
 			this.y += this.speed;
-		} else if (keyIsDown(68)) { //D
+		} else if (keyIsDown(68) && rightEdge) { //D
 			this.x += this.speed;
 		};
 
-		if (keyIsDown(82)) {
+		if (keyIsDown(82)) { //R
 			if (!this.reloading && this.bullets != 6) {
 				this.reloading = true;
 				this.reload();

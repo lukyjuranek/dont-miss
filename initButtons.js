@@ -53,6 +53,12 @@ function initButtons() {
 		let music = settings.music ? "ON" : "OFF";
 		this.text = "Music: " + music;
 	});
+	let showFPS = settings.showFPS ? "ON" : "OFF";
+	UI.buttons.settings[2] = new Button("Show FPS: " + showFPS, "SETTINGS", width / 2, 4 * (height / 6), 290, 55, function () {
+		settings.showFPS = !settings.showFPS;
+		let showFPS = settings.showFPS ? "ON" : "OFF";
+		this.text = "Show FPS: " + showFPS;
+	});
 	UI.buttons.settings[3] = new Button("Back to menu", "MENU", width / 2, 5 * (height / 6), 290, 55);
 	UI.buttons.settings[4] = UI.buttons.menu[4];
 	UI.buttons.settings[5] = UI.buttons.menu[5];

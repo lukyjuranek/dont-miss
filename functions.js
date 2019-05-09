@@ -21,19 +21,28 @@ function spawn() {
 	// let y = getRndIntTwoRanges(settings.spawnRange[0], settings.spawnRange[1], height - settings.spawnRange[1], height);
 	// let x;
 	// let y;
-	// while(true){
-	// 	x = getRndInt(0, width);
-	// 	y = getRndInt(0, height);
-	// 	if(dist(x, y, width/2, height/2) > 300){
-	// 		break;
-	// 	};	
-	// };
-	let rndSpawns = randomSpawn(settings.spawnRange[1]);
-	let enemy = new Enemy(rndSpawns[0], rndSpawns[1]);
-	spawns.push(rndSpawns);
-	enemies.push(enemy);
+
+
+	// spawns enmies min 500px from player
+	while(true){
+		let x = getRndInt(player.x-width/2, player.x+width/2);
+		let y = getRndInt(player.y-height/2, player.y+height/2);
+		if(dist(x, y, player.x, player.y) > 500){
+			let enemy = new Enemy(x, y);
+			enemies.push(enemy);
+			break;
+		};	
+	};
+
+
+
+	// let rndSpawns = randomSpawn(settings.spawnRange[1]);
+	// let enemy = new Enemy(rndSpawns[0], rndSpawns[1]);
+	// spawns.push(rndSpawns);
+	// enemies.push(enemy);
 }
 
+// isn't used
 function randomSpawn(padding){
 	let y = getRndInt(0, width);
 	let x;
@@ -138,7 +147,7 @@ function drawFrameRate() {
 	fill(255);
 	stroke(0);
 	textSize(settings.textSize*20);
-	text(fps.toFixed(0), 30, 30);
+	text(fps.toFixed(0), 50, 40);
 }
 
 function mouseClicked() {

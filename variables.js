@@ -20,6 +20,7 @@ const settings = {
 	speed: 1,
 	soundEffects: true,
 	music: false,
+	showFPS: true,
 	fullscreen: false,
 	spawnSpeed: 2,
 	spawnRange: [0, 100],

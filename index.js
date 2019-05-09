@@ -72,10 +72,17 @@ function draw_game() {
 	// 	drawSpawnAreas();
 	// };
 
-	drawCrosshairs();
+	if(!settings.mobile){
+		drawCrosshairs();
+	};
 	drawBullets();
-	drawFrameRate();
 
+	if(settings.showFPS){
+		drawFrameRate();
+	}
+
+	stroke(0);
+	fill(255);
 	if(settings.gameMode == "CLASSIC"){
 		textSize(settings.textSize*32);
 		text(player.score.classic, width - 50, 40)
@@ -138,7 +145,9 @@ function draw_settings() {
 		button.draw();
 	});
 
-	drawCrosshairs();
+	if(!settings.mobile){
+		drawCrosshairs();
+	};
 }
 
 function draw_game_over() {
@@ -188,6 +197,10 @@ function draw() {
 	} else {
 		debugger;
 	}
+
+	// rectMode(CORNER);
+	// rect(100,100,width-200,height-200);
+	console.log(width/12);
 
 	// var t1 = performance.now();
 	// console.log((t1 - t0));
