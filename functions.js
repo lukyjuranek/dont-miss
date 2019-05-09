@@ -24,34 +24,33 @@ function spawn() {
 
 
 	// spawns enmies min 500px from player
-	while(true){
-		let x = getRndInt(player.x-width/2, player.x+width/2);
-		let y = getRndInt(player.y-height/2, player.y+height/2);
-		if(dist(x, y, player.x, player.y) > 500){
-			let enemy = new Enemy(x, y);
-			enemies.push(enemy);
-			break;
-		};	
-	};
+	// while(true){
+	// 	let x = getRndInt(player.x-width/2, player.x+width/2);
+	// 	let y = getRndInt(player.y-height/2, player.y+height/2);
+	// 	if(dist(x, y, player.x, player.y) > 500){
+	// 		let enemy = new Enemy(x, y);
+	// 		enemies.push(enemy);
+	// 		break;
+	// 	};	
+	// };
 
 
 
-	// let rndSpawns = randomSpawn(settings.spawnRange[1]);
-	// let enemy = new Enemy(rndSpawns[0], rndSpawns[1]);
-	// spawns.push(rndSpawns);
-	// enemies.push(enemy);
+	let rndSpawns = randomSpawn(settings.spawnRange[1]);
+	let enemy = new Enemy(rndSpawns[0], rndSpawns[1]);
+	spawns.push(rndSpawns);
+	enemies.push(enemy);
 }
 
-// isn't used
 function randomSpawn(padding){
-	let y = getRndInt(0, width);
+	let y = getRndInt(-padding, width+padding);
 	let x;
-	if(y<padding || y>height-padding) {
-		x = getRndInt(0, width);
-	} else if (y>padding || y<height-padding){
-		x = getRndIntTwoRanges(0, padding, width-padding, width);
+	if(y<0 || y>height) {
+		x = getRndInt(-padding, width+padding);
+	} else if (y>0 || y<height){
+		x = getRndIntTwoRanges(-padding, 0, width, width+padding);
 	} else {
-		console.error("random spawn generated out of screen")
+		console.error("some error")
 	};
 	return [x, y];
 }
