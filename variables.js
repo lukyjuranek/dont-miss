@@ -2,7 +2,9 @@ var terrain, hat, gun, muzzleflash, bullet;
 var empty, shot;
 var width, height, tmX, tmY;
 let enemies = [];
+let powerups = [];
 let spawns = [];
+let objects = [];
 var game_state = "MENU";
 var wave = 1;
 

@@ -34,12 +34,15 @@ function spawn() {
 	// 	};	
 	// };
 
-
-
 	let rndSpawns = randomSpawn(settings.spawnRange[1]);
 	let enemy = new Enemy(rndSpawns[0], rndSpawns[1]);
 	spawns.push(rndSpawns);
 	enemies.push(enemy);
+}
+
+function spawnPowerup() {
+	let powerup = new Powerup(getRndInt(0, width), getRndInt(0, height));
+	powerups.push(powerup);
 }
 
 function randomSpawn(padding){
@@ -59,10 +62,12 @@ function resetGame() {
 	try{
 		clearInterval(spawnInterval);
 		clearInterval(waveInterval);
+		clearInterval(spawnPowerupInterval);
 	} catch(err) {
 		console.warn(err.message);
 	};
 	enemies = [];
+	powerups = [];
 	spawns = [];
 	player.x = width / 2;
 	player.y = height / 2;
@@ -92,6 +97,7 @@ function resetGame() {
 		}, 10000)
 	};
 	spawnInterval = setInterval(spawn, 1000/settings.spawnSpeed); // spawn enemy every x seconds	
+	spawnPowerupInterval = setInterval(spawnPowerup, 5000);
 }
 
 function getRndInt(min, max) {

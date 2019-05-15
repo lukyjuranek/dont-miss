@@ -78,8 +78,16 @@ const player = {
 		if (this.muzzleflashOn) {
 			image(muzzleflash, 0, -100, 80, 80);
 		};
+		// noFill();
 		// circle(0, 0, this.radius);
 		pop();
+
+		powerups.forEach((powerup, index) => {
+			if(dist(powerup.x, powerup.y, player.x, player.y) < powerup.radius+player.radius){
+				powerup.activate();
+				delete powerups[index];
+			};
+		});
 		
 	},
 	control: function () {

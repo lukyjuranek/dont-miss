@@ -6,6 +6,8 @@ function setup() {
 	imageMode(CENTER);
 	frameRate(60);
 	textFont(PressStart2P);
+	
+	noSmooth();
 
 	// checkboxAreas = createCheckbox('Visible spawn areas', false);
 	// checkboxSpawns = createCheckbox('Visible spawns', false);
@@ -17,6 +19,7 @@ function setup() {
 		fps = frameRate();
 		refreshHighScore();
 	}, 500)
+
 
 }
 
@@ -31,10 +34,14 @@ function preload() {
 	gun = loadImage('img/gun.png');
 	muzzleflash = loadImage('img/muzzleflash.png');
 	bullet = loadImage('img/bullet.png');
+
+	speedup = loadImage('img/speedup.png')
 	// Sounds
 	empty = loadSound('sounds/empty.wav');
 	shot = loadSound('sounds/shot.wav');
 	reload = loadSound('sounds/reload.wav');
+	powerup = loadSound('sounds/powerup.wav');
+	powerupoff = loadSound('sounds/powerupoff.wav');
 	// Fonts
 	PressStart2P = loadFont('fonts/PressStart2P.ttf');
 	// Check mobile device
@@ -53,6 +60,14 @@ function draw_game() {
 		enemy.move();
 		enemy.draw();
 		enemy.checkPlayerDist();
+	});
+	
+	powerups.forEach(powerup => {
+		powerup.draw();
+	});
+
+	objects.forEach(object => {
+		object.draw();
 	});
 
 	player.control();
@@ -198,9 +213,6 @@ function draw() {
 		debugger;
 	}
 
-	// rectMode(CORNER);
-	// rect(100,100,width-200,height-200);
-	console.log(width/12);
 
 	// var t1 = performance.now();
 	// console.log((t1 - t0));
