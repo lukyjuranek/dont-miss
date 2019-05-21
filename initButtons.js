@@ -1,7 +1,7 @@
 function initButtons() {
-
+	
 	// MENU
-
+	
 	UI.buttons.menu[0] = new Button("Play", "GAME", width / 2, 2 * (height / 6), 290, 55, function () {
 		resetGame();
 	});
@@ -17,7 +17,7 @@ function initButtons() {
 	UI.buttons.menu[6] = new Button(settings.gameMode, "MENU", 5*(width/6), 3*(height/6) - 40, 290, 55, function () {
 		let changed = false;
 		settings.gameModes.forEach((mode, index) => {
-				if(settings.gameMode == mode && !changed){
+			if(settings.gameMode == mode && !changed){
 					if(index+1 > settings.gameModes.length-1){
 						index -= settings.gameModes.length;
 					};
@@ -27,7 +27,7 @@ function initButtons() {
 				};
 		});
 	});
-
+	
 	// GAME_OVER
 	UI.buttons.game_over[0] = new Button("Retry", "GAME", width / 2, 4 * (height / 6), 290, 55, function () {
 		resetGame();
@@ -35,18 +35,18 @@ function initButtons() {
 	UI.buttons.game_over[1] = new Button("Back to menu", "MENU", width / 2, 5 * (height / 6), 290, 55);
 	UI.buttons.game_over[2] = UI.buttons.menu[4];
 	UI.buttons.game_over[3] = UI.buttons.menu[5];
-
+	
 	// SETTINGS
 	// UI.buttons.settings[0] = new Button("Play", "GAME", width / 2, 2 * (height / 6), 290, 55);
 	// UI.buttons.settings[0].onPress = function () {
-	// 	resetGame();
-	// }
-	let soundEffects = settings.soundEffects ? "ON" : "OFF";
-	UI.buttons.settings[0] = new Button("SFX: " + soundEffects, "SETTINGS", width / 2, 2 * (height / 6), 290, 55, function () {
-		settings.soundEffects = !settings.soundEffects;
+		// 	resetGame();
+		// }
 		let soundEffects = settings.soundEffects ? "ON" : "OFF";
-		this.text = "SFX: " + soundEffects;
-	});
+		UI.buttons.settings[0] = new Button("SFX: " + soundEffects, "SETTINGS", width / 2, 2 * (height / 6), 290, 55, function () {
+			settings.soundEffects = !settings.soundEffects;
+			let soundEffects = settings.soundEffects ? "ON" : "OFF";
+			this.text = "SFX: " + soundEffects;
+		});
 	let music = settings.music ? "ON" : "OFF";
 	UI.buttons.settings[1] = new Button("Music: " + music, "SETTINGS", width / 2, 3 * (height / 6), 290, 55, function () {
 		settings.music = !settings.music;
@@ -62,4 +62,9 @@ function initButtons() {
 	UI.buttons.settings[3] = new Button("Back to menu", "MENU", width / 2, 5 * (height / 6), 290, 55);
 	UI.buttons.settings[4] = UI.buttons.menu[4];
 	UI.buttons.settings[5] = UI.buttons.menu[5];
+
+	// ABOUT
+	UI.buttons.about[0] = new Button("Back to menu", "MENU", width / 2, 5 * (height / 6), 290, 55);
+	UI.buttons.about[1] = UI.buttons.menu[4];
+	UI.buttons.about[2] = UI.buttons.menu[5];
 }

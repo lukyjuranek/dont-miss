@@ -23,7 +23,7 @@ function spawn() {
 	// let y;
 
 
-	// spawns enmies min 500px from player
+	// spawns enemies min 500px from player
 	// while(true){
 	// 	let x = getRndInt(player.x-width/2, player.x+width/2);
 	// 	let y = getRndInt(player.y-height/2, player.y+height/2);
@@ -96,8 +96,10 @@ function resetGame() {
 			spawnInterval = setInterval(spawn, 1000/(wave+settings.spawnSpeed));
 		}, 10000)
 	};
-	spawnInterval = setInterval(spawn, 1000/settings.spawnSpeed); // spawn enemy every x seconds	
-	spawnPowerupInterval = setInterval(spawnPowerup, 5000);
+	spawnInterval = setInterval(spawn, 1000/settings.spawnSpeed); // spawn enemy every x seconds
+	if(gameMode=="CLASSIC"){
+		spawnPowerupInterval = setInterval(spawnPowerup, 5000);
+	};
 }
 
 function getRndInt(min, max) {
@@ -172,6 +174,12 @@ function mouseClicked() {
 		});
 	} else if (game_state == "GAME_OVER") {
 		UI.buttons.game_over.forEach(button => {
+			if (button.isMouseOnButton()) {
+				button.press()
+			}
+		});
+	} else if (game_state == "ABOUT") {
+		UI.buttons.about.forEach(button => {
 			if (button.isMouseOnButton()) {
 				button.press()
 			}

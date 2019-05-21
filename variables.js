@@ -14,7 +14,8 @@ const UI = {
 	buttons: {
 		menu: [],
 		game_over: [],
-		settings: []
+		settings: [],
+		about: []
 	}
 }
 

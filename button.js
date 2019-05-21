@@ -30,6 +30,7 @@ class Button {
     }
     press(){
         game_state = this.newstate;
+        console.log(this.newstate);
         try{
             this.onPress();
         } catch(err) {

@@ -195,6 +195,28 @@ function draw_game_over() {
 	})
 }
 
+const draw_about = () => {
+	background(0);
+	textAlign(CENTER, CENTER);
+	textSize(settings.textSize*40);
+	fill(255);
+	noStroke();
+	text("About", width / 2, 1*(height/6));
+
+	textSize(settings.textSize*20);
+	text("Created by Lukáš Juránek", width / 2, 2.2*(height/6));
+	text("github.com/lukyjuranek", width / 2, 3.2*(height/6));
+	text("Tools/libraries: p5.js, Krita, Audacity", width / 2, 3.7*(height/6));
+
+	UI.buttons.about.forEach(button => {
+		button.draw();
+	});
+
+	if(!settings.mobile){
+		drawCrosshairs();
+	};
+}
+
 function draw() {
 	// var t0 = performance.now();
 	if (game_state == "MENU") {
@@ -208,7 +230,7 @@ function draw() {
 	} else if (game_state == "SETTINGS") {
 		draw_settings();
 	} else if (game_state == "ABOUT") {
-		game_state = "MENU";
+		draw_about();
 	} else {
 		debugger;
 	}
