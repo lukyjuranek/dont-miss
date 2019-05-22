@@ -5,7 +5,7 @@ function initButtons() {
 	UI.buttons.menu[0] = new Button("Play", "GAME", width / 2, 2 * (height / 6), 290, 55, function () {
 		resetGame();
 	});
-	UI.buttons.menu[1] = new Button("Controls", "CONTROLS", width / 2, 3 * (height / 6), 290, 55);
+	UI.buttons.menu[1] = new Button("Tutorial", "TUTORIAL", width / 2, 3 * (height / 6), 290, 55);
 	UI.buttons.menu[2] = new Button("Settings", "SETTINGS", width / 2, 4 * (height / 6), 290, 55);
 	UI.buttons.menu[3] = new Button("About", "ABOUT", width / 2, 5 * (height / 6), 290, 55);
 	UI.buttons.menu[4] = new imgButton(fullscreen, width - 70, height - 70, 50, 50, function () {
@@ -67,4 +67,9 @@ function initButtons() {
 	UI.buttons.about[0] = new Button("Back to menu", "MENU", width / 2, 5 * (height / 6), 290, 55);
 	UI.buttons.about[1] = UI.buttons.menu[4];
 	UI.buttons.about[2] = UI.buttons.menu[5];
+
+	// TUTORIAL
+	UI.buttons.tutorial[0] = new Button("Back to menu", "MENU", width / 2, 5 * (height / 6), 290, 55);
+	UI.buttons.tutorial[1] = UI.buttons.menu[4];
+	UI.buttons.tutorial[2] = UI.buttons.menu[5];
 }

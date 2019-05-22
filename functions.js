@@ -184,6 +184,12 @@ function mouseClicked() {
 				button.press()
 			}
 		});
+	} else if (game_state == "TUTORIAL") {
+		UI.buttons.tutorial.forEach(button => {
+			if (button.isMouseOnButton()) {
+				button.press()
+			}
+		});
 	}
 }
 

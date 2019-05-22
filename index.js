@@ -125,13 +125,7 @@ function draw_menu() {
 	// Tutorial
 	noStroke();
 	fill(255);
-	textSize(settings.textSize*19);
-	text("Tutorial:", width/6, 3*(height/6) - 40)
-
-	textSize(settings.textSize*12);
-	text("- Kill as many enemies\nas possible", width/6, 3.6*(height/6) - 40);
-	text("- Don't die!!!", width/6, 4*(height/6) - 40);
-	text("- Don't miss!!!", width/6, 4.4*(height/6) - 40);
+	
 	// Highscores
 	textSize(settings.textSize*19);
 	text("Highscores:", 5*(width/6), 4*(height/6) - 40)
@@ -217,6 +211,36 @@ const draw_about = () => {
 	};
 }
 
+const draw_tutorial = () => {
+	background(0);
+	textAlign(CENTER, CENTER);
+	textSize(settings.textSize*40);
+	fill(255);
+	noStroke();
+	text("Tutorial", width / 2, 1*(height/6));
+
+	textSize(settings.textSize*20);
+	text("GOALS:", 2*(width/6), 2.4*(height/6) - 40);
+	text("- Kill enemies", 2*(width/6), 3.2*(height/6) - 40);
+	text("- Don't die!!!", 2*(width/6), 3.6*(height/6) - 40);
+	text("- Don't miss!!!", 2*(width/6), 4*(height/6) - 40);
+
+	text("CONTROLS:", width-2*(width/6), 2.4*(height/6) - 40);
+	text("WASD - move", width-2*(width/6), 3.2*(height/6) - 40);
+	text("Mouse - aim", width-2*(width/6), 3.6*(height/6) - 40);
+	text("LMB - shoot", width-2*(width/6), 4*(height/6) - 40);
+	text("R - reload", width-2*(width/6), 4.4*(height/6) - 40);
+	// Highscores
+
+	UI.buttons.about.forEach(button => {
+		button.draw();
+	});
+
+	if(!settings.mobile){
+		drawCrosshairs();
+	};
+}
+
 function draw() {
 	// var t0 = performance.now();
 	if (game_state == "MENU") {
@@ -225,8 +249,8 @@ function draw() {
 		draw_game();
 	} else if (game_state == "GAME_OVER") {
 		draw_game_over();
-	} else if (game_state == "CONTROLS") {
-		game_state = "MENU";
+	} else if (game_state == "TUTORIAL") {
+		draw_tutorial();
 	} else if (game_state == "SETTINGS") {
 		draw_settings();
 	} else if (game_state == "ABOUT") {
