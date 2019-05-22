@@ -31,7 +31,7 @@ function spawn() {
 	// 		let enemy = new Enemy(x, y);
 	// 		enemies.push(enemy);
 	// 		break;
-	// 	};	
+	// 	};
 	// };
 
 	let rndSpawns = randomSpawn(settings.spawnRange[1]);
@@ -97,7 +97,7 @@ function resetGame() {
 		}, 10000)
 	};
 	spawnInterval = setInterval(spawn, 1000/settings.spawnSpeed); // spawn enemy every x seconds
-	if(gameMode=="CLASSIC"){
+	if(settings.gameMode == "CLASSIC"){
 		spawnPowerupInterval = setInterval(spawnPowerup, 5000);
 	};
 }
