@@ -14,7 +14,7 @@ function initButtons() {
 	UI.buttons.menu[5] = new imgButton(logo, 70, height - 70, 50, 50, function () {
 		window.location.href = "http://lukyjuranek.jecool.net"
 	});
-	UI.buttons.menu[6] = new Button(settings.gameMode, "MENU", 5*(width/6), 3*(height/6) - 40, 290, 55, function () {
+	UI.buttons.menu[6] = new Button(settings.gameMode, "MENU", 1*(width/6), 3.5*(height/6) - 40, 290, 55, function () {
 		let changed = false;
 		settings.gameModes.forEach((mode, index) => {
 			if(settings.gameMode == mode && !changed){
