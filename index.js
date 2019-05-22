@@ -120,7 +120,7 @@ function draw_menu() {
 	text("Don't miss!!!", width / 2, 1*(height/6));
 
 	textSize(settings.textSize*19);
-	text("Game mode:", 1*(width/6), 2.5*(height/6));
+	text("Game mode:", 1.3*(width/6), 2.5*(height/6));
 
 	// Tutorial
 	noStroke();
@@ -128,10 +128,10 @@ function draw_menu() {
 	
 	// Highscores
 	textSize(settings.textSize*19);
-	text("Highscores:", 5*(width/6), 2.5*(height/6) )
+	text("Highscores:", 4.7*(width/6), 2.5*(height/6) )
 	textSize(settings.textSize*12);
-	text("CLASSIC - " + player.high_score.classic, 5*(width/6), 3*(height/6));
-	text("SPEEDY - " + player.high_score.speedy, 5*(width/6), 3.3*(height/6));
+	text("CLASSIC - " + player.high_score.classic, 4.7*(width/6), 3*(height/6));
+	text("SPEEDY - " + player.high_score.speedy, 4.7*(width/6), 3.3*(height/6));
 
 	UI.buttons.menu.forEach(button => {
 		button.draw();
