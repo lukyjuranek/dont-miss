@@ -14,7 +14,7 @@ function initButtons() {
 	UI.buttons.menu[5] = new imgButton(logo, 70, height - 70, 50, 50, function () {
 		window.location.href = "http://lukyjuranek.jecool.net"
 	});
-	UI.buttons.menu[6] = new Button(settings.gameMode, "MENU", 1.3*(width/6), 3.5*(height/6) - 40, 270, 55, function () {
+	UI.buttons.menu[6] = new Button(settings.gameMode, "MENU", 1.3*(width/6), 3*(height/6), 270, 55, function () {
 		let changed = false;
 		settings.gameModes.forEach((mode, index) => {
 			if(settings.gameMode == mode && !changed){
@@ -64,12 +64,15 @@ function initButtons() {
 	UI.buttons.settings[5] = UI.buttons.menu[5];
 
 	// ABOUT
-	UI.buttons.about[0] = new Button("Back to menu", "MENU", width / 2, 5 * (height / 6), 290, 55);
+	UI.buttons.about[0] = UI.buttons.settings[3];
 	UI.buttons.about[1] = UI.buttons.menu[4];
 	UI.buttons.about[2] = UI.buttons.menu[5];
 
 	// TUTORIAL
-	UI.buttons.tutorial[0] = new Button("Back to menu", "MENU", width / 2, 5 * (height / 6), 290, 55);
+	UI.buttons.tutorial[0] = UI.buttons.settings[3];
 	UI.buttons.tutorial[1] = UI.buttons.menu[4];
 	UI.buttons.tutorial[2] = UI.buttons.menu[5];
+
+	// MOBILE_WARNING
+	UI.buttons.mobile_warning[0] = new Button("OK", "MENU", width / 2, 5 * (height / 6), 290, 55);
 }

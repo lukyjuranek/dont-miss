@@ -16,7 +16,8 @@ const UI = {
 		game_over: [],
 		tutorial: [],
 		settings: [],
-		about: []
+		about: [],
+		mobile_warning: []
 	}
 }
 

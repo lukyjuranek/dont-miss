@@ -190,6 +190,14 @@ function mouseClicked() {
 				button.press()
 			}
 		});
+	}  else if (game_state == "MOBILE_WARNING") {
+		UI.buttons.mobile_warning.forEach(button => {
+			if (button.isMouseOnButton()) {
+				button.press()
+			}
+		});
+	} else {
+		console.warn("No buttons for this game state: " + game_state);
 	}
 }
 

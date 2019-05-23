@@ -47,8 +47,9 @@ function preload() {
 	// Check mobile device
 	if(window.mobilecheck()){
 		settings.mobile = true
-		settings.textSize = 0.8;
+		settings.textSize = 0.7;
 		settings.buttonSize = 0.7;
+		game_state = "MOBILE_WARNING"
 	};
 }
 
@@ -217,28 +218,38 @@ function draw_tutorial() {
 	textSize(settings.textSize*40);
 	fill(255);
 	noStroke();
-	text("Tutorial", width / 2, 1*(height/6));
+	text("About", width / 2, 1*(height/6));
 
 	textSize(settings.textSize*20);
-	text("GOALS:", 2*(width/6), 2.4*(height/6) - 40);
-	text("- Kill enemies", 2*(width/6), 3.2*(height/6) - 40);
-	text("- Don't die!!!", 2*(width/6), 3.6*(height/6) - 40);
-	text("- Don't miss!!!", 2*(width/6), 4*(height/6) - 40);
+	text("Created by Lukáš Juránek", width / 2, 2.2*(height/6));
+	text("github.com/lukyjuranek", width / 2, 3.2*(height/6));
+	text("Tools/libraries: p5.js, Krita, Audacity", width / 2, 3.7*(height/6));
 
-	text("CONTROLS:", width-2*(width/6), 2.4*(height/6) - 40);
-	text("WASD - move", width-2*(width/6), 3.2*(height/6) - 40);
-	text("Mouse - aim", width-2*(width/6), 3.6*(height/6) - 40);
-	text("LMB - shoot", width-2*(width/6), 4*(height/6) - 40);
-	text("R - reload", width-2*(width/6), 4.4*(height/6) - 40);
-	// Highscores
-
-	UI.buttons.about.forEach(button => {
+	UI.buttons.tutorial.forEach(button => {
 		button.draw();
 	});
 
 	if(!settings.mobile){
 		drawCrosshairs();
 	};
+}
+
+function draw_mobile_warning() {
+	background(0);
+	textAlign(CENTER, CENTER);
+	textSize(settings.textSize*40);
+	fill(255);
+	noStroke();
+
+	text("! Warning !", width / 2, 1*(height/6));
+
+	textSize(settings.textSize*30);
+	text("This game was designed for PC", width / 2, 2.2*(height/6));
+	text("You need keyboard\nand mouse to play it", width / 2, 3.2*(height/6));
+
+	UI.buttons.mobile_warning.forEach(button => {
+		button.draw();
+	});
 }
 
 function draw() {
@@ -255,8 +266,10 @@ function draw() {
 		draw_settings();
 	} else if (game_state == "ABOUT") {
 		draw_about();
+	} else if (game_state == "MOBILE_WARNING") {
+		draw_mobile_warning();
 	} else {
-		debugger;
+		console.error(game_state + "is not game state");
 	}
 
 
