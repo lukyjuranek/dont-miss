@@ -1,4 +1,3 @@
-
 function setup() {
 	createCanvas(displayWidth, windowHeight);
 	background(0);
@@ -129,7 +128,7 @@ function draw_menu() {
 	
 	// Highscores
 	textSize(settings.textSize*19);
-	text("Highscores:", 4.7*(width/6), 2.5*(height/6) )
+	text("Highscores:", 4.7*(width/6), 2.5*(height/6));
 	textSize(settings.textSize*12);
 	text("CLASSIC - " + player.high_score.classic, 4.7*(width/6), 3*(height/6));
 	text("SPEEDY - " + player.high_score.speedy, 4.7*(width/6), 3.3*(height/6));
@@ -271,7 +270,6 @@ function draw() {
 	} else {
 		console.error(game_state + "is not game state");
 	}
-
 
 	// var t1 = performance.now();
 	// console.log((t1 - t0));

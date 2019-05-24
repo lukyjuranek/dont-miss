@@ -41,7 +41,7 @@ function spawn() {
 }
 
 function spawnPowerup() {
-	let powerup = new Powerup(getRndInt(0, width), getRndInt(0, height));
+	let powerup = new Powerup(getRndInt(width/7, width-width/7), getRndInt(height/8, height-height/8));
 	powerups.push(powerup);
 }
 
