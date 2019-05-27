@@ -217,14 +217,22 @@ function draw_tutorial() {
 	textSize(settings.textSize*40);
 	fill(255);
 	noStroke();
-	text("About", width / 2, 1*(height/6));
+	text("Tutorial", width / 2, 1*(height/6));
 
 	textSize(settings.textSize*20);
-	text("Created by Lukáš Juránek", width / 2, 2.2*(height/6));
-	text("github.com/lukyjuranek", width / 2, 3.2*(height/6));
-	text("Tools/libraries: p5.js, Krita, Audacity", width / 2, 3.7*(height/6));
+	text("GOALS:", 2*(width/6), 2.4*(height/6) - 40);
+	text("- Kill enemies", 2*(width/6), 3.2*(height/6) - 40);
+	text("- Don't die!!!", 2*(width/6), 3.6*(height/6) - 40);
+	text("- Don't miss!!!", 2*(width/6), 4*(height/6) - 40);
 
-	UI.buttons.tutorial.forEach(button => {
+	text("CONTROLS:", width-2*(width/6), 2.4*(height/6) - 40);
+	text("WASD - move", width-2*(width/6), 3.2*(height/6) - 40);
+	text("Mouse - aim", width-2*(width/6), 3.6*(height/6) - 40);
+	text("LMB - shoot", width-2*(width/6), 4*(height/6) - 40);
+	text("R - reload", width-2*(width/6), 4.4*(height/6) - 40);
+	// Highscores
+
+	UI.buttons.about.forEach(button => {
 		button.draw();
 	});
 
